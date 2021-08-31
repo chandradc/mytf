@@ -2,12 +2,7 @@ pipeline{
     
     agent any
     stages{
-        stage('Git Checkout'){
-            steps{
-                git 'https://github.com/chandradc/mytf.git'
-            }
-        }
-        stage('Terraform Init'){
+         stage('Terraform Init'){
             steps{
                 dir("${env.WORKSPACE}/vpc"){
                 bat 'terraform init'
