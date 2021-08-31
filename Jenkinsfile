@@ -9,8 +9,20 @@ pipeline{
             }
         }
         }
+        stage('Terraform Plan'){
+            steps{
+                withAWS(credentials: 'aws-cred') {
+                dir("${env.WORKSPACE}/vpc"){
+                bat 'terraform plan'
+            }
+            }
+        }
+        }
         stage('Terraform Apply'){
             steps{
+                timeout(time:5, unit:'MINUTES'){
+                    input message: 'Are you sure you want to Apply?'
+                }
                 withAWS(credentials: 'aws-cred') {
                 dir("${env.WORKSPACE}/vpc"){
                 bat 'terraform apply --auto-approve'
